@@ -6,7 +6,7 @@
 
 include ../Makefile.mk
 
-INC=-I../sqlite
+INC=-I../sqlite -I../SipPlatform
 
 .SUFFIXES: .o .cpp
 %.o : %.cpp
