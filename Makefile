@@ -8,11 +8,13 @@ all:
 	cd SipPlatform && make
 	cd sqlite && make
 	cd CppSQLite && make
+	cd TestCppSQLite && make
 
 clean:
 	cd SipPlatform && make clean
 	cd sqlite && make clean
 	cd CppSQLite && make clean
+	cd TestCppSQLite && make clean
 
 install:
 

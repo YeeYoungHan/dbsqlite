@@ -291,7 +291,6 @@ bool CppSQLite::Query( const char * pszSQL, void * pclsData, bool (*FetchRow)( v
 
 	sqlite3_stmt * psttStmt = NULL;
 	int n;
-	bool bRes = false;
 
 	n = sqlite3_prepare( m_psttDb, pszSQL, -1, &psttStmt, NULL );
 	if( n != SQLITE_OK )
