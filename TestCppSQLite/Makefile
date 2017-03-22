@@ -10,7 +10,7 @@ INC=-I../CppSQLite -I../SipPlatform -I../sqlite
 LIB=-L../CppSQLite -lcppsqlite \
 	-L../SipPlatform -lsipplatform \
 	-L../sqlite -lsqlite \
-	-lpthread
+	-ldl -lpthread
 
 .SUFFIXES: .o .cpp
 %.o : %.cpp
