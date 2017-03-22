@@ -14,7 +14,7 @@ INC=
 
 all: libsqlite.a
 
-LIB_OBJ=sqlite.o
+LIB_OBJ=sqlite3.o
 
 libsqlite.a: $(LIB_OBJ)
 	ar crv $@ $(LIB_OBJ)
