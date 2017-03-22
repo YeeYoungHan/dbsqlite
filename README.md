@@ -1,2 +1,0 @@
-# dbsqlite
-C++ sqlite library
