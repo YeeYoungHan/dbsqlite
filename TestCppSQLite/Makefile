@@ -7,9 +7,9 @@
 include ../Makefile.mk
 
 INC=-I../CppSQLite -I../SipPlatform -I../sqlite
-LIB=-I../CppSQLite -lcppsqlite \
-	-I../SipPlatform -lsipplatform \
-	-I../sqlite -lsqlite \
+LIB=-L../CppSQLite -lcppsqlite \
+	-L../SipPlatform -lsipplatform \
+	-L../sqlite -lsqlite \
 	-lpthread
 
 .SUFFIXES: .o .cpp
