@@ -6,7 +6,7 @@
 
 include ../Makefile.mk
 
-INC=
+INC=-I../sqlite
 
 .SUFFIXES: .o .cpp
 %.o : %.cpp
