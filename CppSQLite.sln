@@ -11,6 +11,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sqlite", "sqlite\sqlite.vcp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SipPlatform", "SipPlatform\SipPlatform.vcproj", "{59766094-16E8-4602-9621-6C1E5ED9AF5F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestCppSQLite", "TestCppSQLite\TestCppSQLite.vcproj", "{FEF40DAA-079F-468F-A624-7E95DB38B609}"
+	ProjectSection(ProjectDependencies) = postProject
+		{764D8101-6F83-40AA-8657-8EEA823698CE} = {764D8101-6F83-40AA-8657-8EEA823698CE}
+		{59766094-16E8-4602-9621-6C1E5ED9AF5F} = {59766094-16E8-4602-9621-6C1E5ED9AF5F}
+		{7575CEE0-C7CE-46E7-B06E-63432ED1625F} = {7575CEE0-C7CE-46E7-B06E-63432ED1625F}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -39,6 +46,12 @@ Global
 		{59766094-16E8-4602-9621-6C1E5ED9AF5F}.Release|Win32.Build.0 = Release|Win32
 		{59766094-16E8-4602-9621-6C1E5ED9AF5F}.Release|x64.ActiveCfg = Release|x64
 		{59766094-16E8-4602-9621-6C1E5ED9AF5F}.Release|x64.Build.0 = Release|x64
+		{FEF40DAA-079F-468F-A624-7E95DB38B609}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FEF40DAA-079F-468F-A624-7E95DB38B609}.Debug|Win32.Build.0 = Debug|Win32
+		{FEF40DAA-079F-468F-A624-7E95DB38B609}.Debug|x64.ActiveCfg = Debug|Win32
+		{FEF40DAA-079F-468F-A624-7E95DB38B609}.Release|Win32.ActiveCfg = Release|Win32
+		{FEF40DAA-079F-468F-A624-7E95DB38B609}.Release|Win32.Build.0 = Release|Win32
+		{FEF40DAA-079F-468F-A624-7E95DB38B609}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

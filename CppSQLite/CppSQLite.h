@@ -19,6 +19,7 @@
 #ifndef _CPP_SQLITE_H_
 #define _CPP_SQLITE_H_
 
+#include "SipPlatformDefine.h"
 #include "sqlite3.h"
 #include <string>
 #include "SipMutex.h"
