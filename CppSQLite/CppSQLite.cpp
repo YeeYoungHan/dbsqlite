@@ -134,18 +134,20 @@ bool CppSQLite::Execute( const char * pszSQL )
 
 /**
  * @ingroup CppSQLite
- * @brief 1개의 동적 인자를 포함한 동적 SQL 문을 실행한다.
- * @param pszSQL SQL 문자열
- * @param pszArg 동적 인자
+ * @brief prepare statement 로 SQL INSERT, UPDATE, DELETE 명령을 수행한다.
+ * @param pszSQL		동적 SQL 문
+ * @param iArgCount Bind 인자 개수
+ * @param						Bind 인자
  * @returns 성공하면 true 를 리턴하고 실패하면 false 를 리턴한다.
  */
-bool CppSQLite::ExecuteBind( const char * pszSQL, const char * pszArg )
+bool CppSQLite::Execute( const char * pszSQL, int iArgCount, ... )
 {
 	if( m_psttDb == NULL ) return false;
 
 	sqlite3_stmt * psttStmt = NULL;
+	va_list pArgList;
 	int n;
-	bool bRes = false;
+	bool bRes = false, bError = false;
 
 	n = sqlite3_prepare( m_psttDb, pszSQL, -1, &psttStmt, NULL );
 	if( n != SQLITE_OK )
@@ -154,16 +156,40 @@ bool CppSQLite::ExecuteBind( const char * pszSQL, const char * pszArg )
 		return false;
 	}
 
-	n = sqlite3_bind_text( psttStmt, 1, pszArg, -1, NULL );
+	va_start( pArgList, iArgCount );
 
-	n = sqlite3_step( psttStmt );
-	if( n != SQLITE_DONE )
+	for( int i = 0; i < iArgCount; ++i )
 	{
-		CLog::Print( LOG_ERROR, "DB step(%s) error(%d) - %s", pszSQL, n, sqlite3_errmsg(m_psttDb) );
+		char * pszArg = va_arg( pArgList, char * );
+		if( pszArg == NULL )
+		{
+			CLog::Print( LOG_ERROR, "%s arg(%d) is NULL", __FUNCTION__, i );
+			bError = true;
+			break;
+		}
+
+		n = sqlite3_bind_text( psttStmt, i + 1, pszArg, -1, NULL );
+		if( n != SQLITE_OK )
+		{
+			CLog::Print( LOG_ERROR, "%s arg(%d) bind error(%d)", __FUNCTION__, i, n );
+			bError = true;
+			break;
+		}
 	}
-	else
+
+	va_end( pArgList );
+
+	if( bError == false )
 	{
-		bRes = true;
+		n = sqlite3_step( psttStmt );
+		if( n != SQLITE_DONE )
+		{
+			CLog::Print( LOG_ERROR, "DB step(%s) error(%d) - %s", pszSQL, n, sqlite3_errmsg(m_psttDb) );
+		}
+		else
+		{
+			bRes = true;
+		}
 	}
 
 	sqlite3_finalize( psttStmt );

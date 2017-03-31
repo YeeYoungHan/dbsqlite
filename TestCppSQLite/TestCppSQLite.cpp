@@ -1,6 +1,7 @@
 #include "CppSQLite.h"
 #include <list>
 
+// 테이블 row 1개를 저장할 자료구조
 class CNameValue
 {
 public:
@@ -8,6 +9,7 @@ public:
 	std::string m_strValue;
 };
 
+// 테이블 row N개를 저장할 자료구조
 typedef std::list< CNameValue > NAME_VALUE_LIST;
 
 void DbSetData( sqlite3_stmt * psttStmt, int & iCol, std::string & strData )
@@ -71,7 +73,7 @@ int main( int argc, char * argv[] )
 	{
 		// 테이블에 INSERT 한다.
 		clsDB.Execute( "INSERT INTO Test( name, value ) VALUES( 'n1', 'v1' )" );
-		clsDB.Execute( "INSERT INTO Test( name, value ) VALUES( 'n2', 'v2' )" );
+		clsDB.Execute( "INSERT INTO Test( name, value ) VALUES( ?, ? )", 2, "n2", "v2" );
 
 		// 한 개의 row 및 column 에 대한 쿼리를 실행한다.
 		int iCount = 0;

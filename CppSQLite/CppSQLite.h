@@ -39,7 +39,7 @@ public:
 	bool IsOpen( );
 
 	bool Execute( const char * pszSQL );
-	bool ExecuteBind( const char * pszSQL, const char * pszArg );
+	bool Execute( const char * pszSQL, int iArgCount, ... );
 	bool QueryOne( const char * pszSQL, int & iData );
 	bool QueryOne( const char * pszSQL, uint32_t & iData );
 	bool QueryOne( const char * pszSQL, uint64_t & iData );
