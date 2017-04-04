@@ -40,10 +40,15 @@ public:
 
 	bool Execute( const char * pszSQL );
 	bool Execute( const char * pszSQL, int iArgCount, ... );
+
+	bool Insert( const char * pszSQL, int64_t * piId );
+	bool Insert( const char * pszSQL, int64_t * piId, int iArgCount, ... );
+
 	bool QueryOne( const char * pszSQL, int & iData );
 	bool QueryOne( const char * pszSQL, uint32_t & iData );
 	bool QueryOne( const char * pszSQL, uint64_t & iData );
 	bool QueryOne( const char * pszSQL, std::string & strData );
+	
 	bool Query( const char * pszSQL, void * pclsData, bool (*FetchRow)( void *, sqlite3_stmt * psttStmt ) );
 
 private:

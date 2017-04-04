@@ -199,6 +199,96 @@ bool CppSQLite::Execute( const char * pszSQL, int iArgCount, ... )
 
 /**
  * @ingroup CppSQLite
+ * @brief SQL INSERT 명령을 실행한 후, AUTOINCREMENT KEY 를 가져온다.
+ * @param pszSQL SQL 문자열
+ * @param piId			INSERT 된 KEY 를 저장할 변수의 포인터
+ * @returns 성공하면 true 를 리턴하고 실패하면 false 를 리턴한다.
+ */
+bool CppSQLite::Insert( const char * pszSQL, int64_t * piId )
+{
+	if( Execute( pszSQL ) == false ) return false;
+
+	if( piId )
+	{
+		*piId = sqlite3_last_insert_rowid( m_psttDb );
+	}
+
+	return true;
+}
+
+/**
+ * @ingroup CppSQLite
+ * @brief prepare statement 로 SQL INSERT 명령을 실행한 후, AUTOINCREMENT KEY 를 가져온다.
+ * @param pszSQL		동적 SQL 문
+ * @param piId			INSERT 된 KEY 를 저장할 변수의 포인터
+ * @param iArgCount Bind 인자 개수
+ * @param						Bind 인자
+ * @returns 성공하면 true 를 리턴하고 실패하면 false 를 리턴한다.
+ */
+bool CppSQLite::Insert( const char * pszSQL, int64_t * piId, int iArgCount, ... )
+{
+	if( m_psttDb == NULL ) return false;
+
+	sqlite3_stmt * psttStmt = NULL;
+	va_list pArgList;
+	int n;
+	bool bRes = false, bError = false;
+
+	n = sqlite3_prepare( m_psttDb, pszSQL, -1, &psttStmt, NULL );
+	if( n != SQLITE_OK )
+	{
+		CLog::Print( LOG_ERROR, "DB prepare(%s) error(%d) - %s", pszSQL, n, sqlite3_errmsg(m_psttDb) );
+		return false;
+	}
+
+	va_start( pArgList, iArgCount );
+
+	for( int i = 0; i < iArgCount; ++i )
+	{
+		char * pszArg = va_arg( pArgList, char * );
+		if( pszArg == NULL )
+		{
+			CLog::Print( LOG_ERROR, "%s arg(%d) is NULL", __FUNCTION__, i );
+			bError = true;
+			break;
+		}
+
+		n = sqlite3_bind_text( psttStmt, i + 1, pszArg, -1, NULL );
+		if( n != SQLITE_OK )
+		{
+			CLog::Print( LOG_ERROR, "%s arg(%d) bind error(%d)", __FUNCTION__, i, n );
+			bError = true;
+			break;
+		}
+	}
+
+	va_end( pArgList );
+
+	if( bError == false )
+	{
+		n = sqlite3_step( psttStmt );
+		if( n != SQLITE_DONE )
+		{
+			CLog::Print( LOG_ERROR, "DB step(%s) error(%d) - %s", pszSQL, n, sqlite3_errmsg(m_psttDb) );
+		}
+		else
+		{
+			bRes = true;
+		}
+	}
+
+	sqlite3_finalize( psttStmt );
+
+	if( bRes && piId )
+	{
+		*piId = sqlite3_last_insert_rowid( m_psttDb );
+	}
+
+	return bRes;
+}
+
+/**
+ * @ingroup CppSQLite
  * @brief SQL 문으로 1개의 컬럼을 검색한다.
  * @param pszSQL	SQL 문자열
  * @param iData		[out] 검색된 결과 저장 변수

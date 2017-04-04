@@ -63,6 +63,7 @@ int main( int argc, char * argv[] )
 	}
 
 	clsDB.Execute( "DROP TABLE Test" );
+	clsDB.Execute( "DROP TABLE TestKey" );
 
 	// 테이블을 생성한다.
 	if( clsDB.Execute( "CREATE TABLE Test( name TEXT PRIMARY KEY, value TEXT )" ) == false )
@@ -73,6 +74,8 @@ int main( int argc, char * argv[] )
 	{
 		// 테이블에 INSERT 한다.
 		clsDB.Execute( "INSERT INTO Test( name, value ) VALUES( 'n1', 'v1' )" );
+
+		// 동적 SQL 실행 예제
 		clsDB.Execute( "INSERT INTO Test( name, value ) VALUES( ?, ? )", 2, "n2", "v2" );
 
 		// 한 개의 row 및 column 에 대한 쿼리를 실행한다.
@@ -89,6 +92,22 @@ int main( int argc, char * argv[] )
 		{
 			printf( "name(%s) value(%s)\n", itList->m_strName.c_str(), itList->m_strValue.c_str() );
 		}
+	}
+
+	// AUTOINCREMENT KEY 를 포함한 테이블을 생성한다.
+	if( clsDB.Execute( "CREATE TABLE TestKey( idk INTEGER PRIMARY KEY AUTOINCREMENT, value TEXT )" ) == false )
+	{
+		printf( "Create table error\n" );
+	}
+	else
+	{
+		int64_t iKey;
+
+		// 테이블에 INSERT 한다.
+		clsDB.Insert( "INSERT INTO TestKey( value ) VALUES( 'v1' )", &iKey );
+		printf( "key(" LONG_LONG_FORMAT ")\n", iKey );
+		clsDB.Insert( "INSERT INTO TestKey( value ) VALUES( 'v2' )", &iKey );
+		printf( "key(" LONG_LONG_FORMAT ")\n", iKey );
 	}
 
 	clsDB.Close();
