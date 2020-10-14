@@ -137,7 +137,6 @@ bool CppSQLite::Execute( const char * pszSQL )
  * @brief prepare statement 로 SQL INSERT, UPDATE, DELETE 명령을 수행한다.
  * @param pszSQL		동적 SQL 문
  * @param iArgCount Bind 인자 개수
- * @param						Bind 인자
  * @returns 성공하면 true 를 리턴하고 실패하면 false 를 리턴한다.
  */
 bool CppSQLite::Execute( const char * pszSQL, int iArgCount, ... )
@@ -222,7 +221,6 @@ bool CppSQLite::Insert( const char * pszSQL, int64_t * piId )
  * @param pszSQL		동적 SQL 문
  * @param piId			INSERT 된 KEY 를 저장할 변수의 포인터
  * @param iArgCount Bind 인자 개수
- * @param						Bind 인자
  * @returns 성공하면 true 를 리턴하고 실패하면 false 를 리턴한다.
  */
 bool CppSQLite::Insert( const char * pszSQL, int64_t * piId, int iArgCount, ... )

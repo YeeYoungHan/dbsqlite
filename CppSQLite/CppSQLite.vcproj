@@ -158,6 +158,10 @@
 				RelativePath=".\CppSQLite.h"
 				>
 			</File>
+			<File
+				RelativePath=".\CppSQLiteVersion.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
